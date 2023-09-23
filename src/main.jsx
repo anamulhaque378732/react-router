@@ -12,14 +12,20 @@ import Home from './Component/Home/Home.jsx';
 import About from './Component/About/About';
 import Contact from './Component/Contact/Contact';
 import User from './Component/User/User';
- 
+import UserDetails from './Component/UserDetails/UserDetails';
+import Posts from './Component/Posts/Posts';
+
+import PostDetails from './Component/PostDetails/PostDetails';
+import ErrorPages from './Component/ErrorPages/ErrorPages';
+
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home></Home>,
+    errorElement: <ErrorPages></ErrorPages>,
     children: [
-      
+
       {
         path: '/about',
         element: <About></About>
@@ -30,20 +36,32 @@ const router = createBrowserRouter([
       },
       {
         path: '/users',
+        loader: () => fetch('https://jsonplaceholder.typicode.com/users'),
         element: <User></User>
-      }
+      },
+      {
+        path: '/user/:userId',
+        loader: ({ params }) => fetch(`https://jsonplaceholder.typicode.com/users/${params.userId}`),
+
+        element: <UserDetails></UserDetails>
+
+      },
+      {
+        path: '/posts',
+        loader: () => fetch('https://jsonplaceholder.typicode.com/posts'),
+        element: <Posts></Posts>
+      },
+      {
+        path: '/post/:postId',
+        loader: ({ params }) => fetch(`https://jsonplaceholder.typicode.com/posts/${params.postId}`),
+        element: <PostDetails></PostDetails>
+      },
+
+
+
 
     ]
 
-  },
-
-  {
-    path: '/about',
-    element: <div>I am in the about page</div>
-  },
-  {
-    path: '/content',
-    element: <div>cell me right now</div>
   }
 
 
